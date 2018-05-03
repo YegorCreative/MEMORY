@@ -7,7 +7,7 @@ const game = {
     'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bomb'],
     memory_values: [];
     memory_card_ids: [];
-    cards_flipped = 0;
+    cards_flipped = [];
 }
 
 const card = 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bomb';
@@ -31,13 +31,13 @@ for (const card in game.array) {
 
   // Shuffle function from http://stackoverflow.com/a/2450976
   function shuffle(array) {
-      var currentIndex = array.length, temporaryValue, randomIndex;
+      var currentIndex = game.array.length, temporaryValue, randomIndex;
 
       while (currentIndex !== 0) {
           randomIndex = Math.floor(Math.random() * currentIndex);
           currentIndex -= 1;
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
+          temporaryValue = game.array[currentIndex];
+          array[currentIndex] = game.array[randomIndex];
           array[randomIndex] = temporaryValue;
       }
 
@@ -46,21 +46,21 @@ for (const card in game.array) {
 
 /* end shuffle function Udacity */
 
-function newBoard(){
+function newBoard() {
 	cards_flipped = 0;
 	var output = '';
     array.memory_card_shuffle();
-	for(var i = 0; i < array.length; i++){
+	for(var i = 0; i < array.length; i++) {
 		output += '<div id="card_'+i+'" onclick="memoryFlipcard(this,\''+array[i]+'\')"></div>';
 	}
 	document.getElementById('card').innerHTML = output;
 }
 
-function memoryFlipcard(card,val){
-	if(card.innerHTML == "" && memory_values.length < 2){
-		card.style.background = '#FFF';
+function memoryFlipcard(card,val) {
+
+	if(card.innerHTML == "" && memory_values.length < 2) {
 		card.innerHTML = val;
-		if(memory_values.length == 0){
+		if(memory_values.length == 0) {
 			memory_values.push(val);
 			memory_card_ids.push(card.id);
 		} else if(memory_values.length == 1){
@@ -73,7 +73,6 @@ function memoryFlipcard(card,val){
             	memory_card_ids = [];
 				// Check to see if the whole board is cleared
 				if(cards_flipped == array.length){
-					alert("Board cleared... generating new board");
 					document.getElementById('memory_board').innerHTML = "";
 					newBoard();
 				}
@@ -82,18 +81,17 @@ function memoryFlipcard(card,val){
 				    // Flip the 2 cards back over
 				    var card_1 = document.getElementById(memory_card_ids[0]);
 				    var card_2 = document.getElementById(memory_card_ids[1]);
-				    card_1.style.background = 'url(card_bg.jpg) no-repeat';
-            	    card_1.innerHTML = "";
-				    card_2.style.background = 'url(card_bg.jpg) no-repeat';
-            	    card_2.innerHTML = "";
+				    card_1.innerHTML = "";
+				    card_2.innerHTML = "";
 				    // Clear both arrays
 				    memory_values = [];
-            	    memory_card_ids = [];
+            memory_card_ids = [];
 				}
 				setTimeout(flip2Back, 400);
 			}
 		}
 	}
+ }
 }
   /*
    * set up the event listener for a card. If a card is clicked:
