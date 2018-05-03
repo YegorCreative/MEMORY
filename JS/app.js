@@ -6,7 +6,7 @@ const game = {
     array: ['fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bomb',
     'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bomb'],
     memory_values: [];
-    memory_tile_ids: [];
+    memory_card_ids: [];
     cards_flipped = 0;
 }
 
@@ -49,28 +49,28 @@ for (const card in game.array) {
 function newBoard(){
 	cards_flipped = 0;
 	var output = '';
-    array.memory_tile_shuffle();
+    array.memory_card_shuffle();
 	for(var i = 0; i < array.length; i++){
-		output += '<div id="tile_'+i+'" onclick="memoryFlipTile(this,\''+array[i]+'\')"></div>';
+		output += '<div id="card_'+i+'" onclick="memoryFlipcard(this,\''+array[i]+'\')"></div>';
 	}
 	document.getElementById('card').innerHTML = output;
 }
 
-function memoryFlipTile(tile,val){
-	if(tile.innerHTML == "" && memory_values.length < 2){
-		tile.style.background = '#FFF';
-		tile.innerHTML = val;
+function memoryFlipcard(card,val){
+	if(card.innerHTML == "" && memory_values.length < 2){
+		card.style.background = '#FFF';
+		card.innerHTML = val;
 		if(memory_values.length == 0){
 			memory_values.push(val);
-			memory_tile_ids.push(tile.id);
+			memory_card_ids.push(card.id);
 		} else if(memory_values.length == 1){
 			memory_values.push(val);
-			memory_tile_ids.push(tile.id);
+			memory_card_ids.push(card.id);
 			if(memory_values[0] == memory_values[1]){
 				cards_flipped += 2;
 				// Clear both arrays
 				memory_values = [];
-            	memory_tile_ids = [];
+            	memory_card_ids = [];
 				// Check to see if the whole board is cleared
 				if(cards_flipped == array.length){
 					alert("Board cleared... generating new board");
@@ -80,15 +80,15 @@ function memoryFlipTile(tile,val){
 			} else {
 				function flip2Back(){
 				    // Flip the 2 cards back over
-				    var tile_1 = document.getElementById(memory_tile_ids[0]);
-				    var tile_2 = document.getElementById(memory_tile_ids[1]);
-				    tile_1.style.background = 'url(tile_bg.jpg) no-repeat';
-            	    tile_1.innerHTML = "";
-				    tile_2.style.background = 'url(tile_bg.jpg) no-repeat';
-            	    tile_2.innerHTML = "";
+				    var card_1 = document.getElementById(memory_card_ids[0]);
+				    var card_2 = document.getElementById(memory_card_ids[1]);
+				    card_1.style.background = 'url(card_bg.jpg) no-repeat';
+            	    card_1.innerHTML = "";
+				    card_2.style.background = 'url(card_bg.jpg) no-repeat';
+            	    card_2.innerHTML = "";
 				    // Clear both arrays
 				    memory_values = [];
-            	    memory_tile_ids = [];
+            	    memory_card_ids = [];
 				}
 				setTimeout(flip2Back, 400);
 			}
